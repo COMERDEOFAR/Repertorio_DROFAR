@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portafolios Drofar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: fondo fijo con marco verde, esquinas de colores y marca de agua; encabezado translúcido con el logo de Drofar */
+:root{
+  color-scheme:light;
+  --bg:#ffffff; --card:#ffffff; --fg:#14243a; --muted:#5a6678; --line:#dde4ea;
+  --green:#6E9B2C; --green-d:#4a7418; --blue:#14437C; --orange:#EBA043; --chip:#f4f7ee; --chip-on:#14437C; --chip-on-fg:#ffffff;
+  --shadow:0 1px 2px rgba(20,36,58,.08),0 8px 20px rgba(20,36,58,.07);
+  --display:"Outfit","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+input[type=search]::-webkit-search-cancel-button{display:none}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:0 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.wrap{max-width:1180px;margin-inline:auto;position:relative;z-index:1}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:transparent;padding-block:12px 10px;border-bottom:1px solid transparent;transition:background .2s,border-color .2s;margin-inline:-16px;padding-inline:16px}
+header.top.stuck{background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom-color:var(--line)}
+.bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;margin-right:auto}
+.logo{display:block;height:58px;width:auto;flex:none}
+.brand .sub{margin:0;font-family:var(--display);font-size:19px;font-weight:600;color:var(--blue);line-height:1.15}
+.search{flex:1 1 280px;max-width:460px;position:relative}
+.search input{width:100%;font:inherit;padding:11px 40px 11px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--fg)}
+.search input::placeholder{color:var(--muted)}
+.search button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;width:32px;height:32px;border-radius:50%;font-size:20px;line-height:1;color:var(--muted)}
+.row{display:flex;gap:8px;overflow-x:auto;padding-block:10px 2px;scrollbar-width:thin}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--chip);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-fg);border-color:var(--chip-on)}
+.letters .chip{padding:4px 0;min-width:34px;text-align:center;font-family:var(--display);font-size:14px;border-radius:8px}
+.letters[hidden]{display:none}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:16px 12px;color:var(--muted);font-size:14px}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:transparent;padding:5px 14px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;min-width:0;text-align:left;padding:0;border:1px solid var(--line);background:var(--card);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);transition:transform .15s}
+.card:hover{transform:translateY(-2px)}
+.card .ph{background:#fff;aspect-ratio:612/792;width:100%}
+.card img{display:block;width:100%;height:100%;object-fit:cover}
+.card .cap{padding:9px 11px 11px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.card .pg{font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green-d)}
+.card .nm{font-size:14px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.card .sub{font-size:12.5px;color:var(--muted);line-height:1.35;overflow-wrap:anywhere}
+.sheets .grid{grid-template-columns:minmax(0,760px);justify-content:center;gap:22px}
+.empty{padding:56px 0;text-align:center;color:var(--muted)}
+mark{background:color-mix(in srgb,var(--orange) 35%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+footer{background:rgba(255,255,255,.85);padding:14px 16px;border-radius:10px;margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;max-width:70ch}
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--bg)}
+.bgfx .frame{position:absolute;inset:10px;border:3px solid var(--green)}
+.bgfx .wm{position:absolute;left:50%;top:50%;width:min(72vw,720px);height:auto;transform:translate(-50%,-50%);opacity:.08}
+.bgfx .c{position:absolute;height:auto}
+.bgfx .tr{top:0;right:0;width:clamp(84px,14vw,190px)}
+.bgfx .bl{bottom:0;left:0;width:clamp(84px,14vw,190px)}
+
+.modeNote{margin:12px 0 0;font-size:13px;color:var(--blue);font-weight:600}
+.modeNote[hidden]{display:none}
+.adminbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-right:auto;margin-left:12px}
+.adminbar[hidden]{display:none}
+.pill{font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green-d);border:1.5px solid var(--green);border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.85)}
+.btn{border:1.5px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-fg);border-color:var(--chip-on)}
+.btn:disabled{opacity:.6;cursor:default}
+.card.xtra .ph img{object-fit:contain}
+.card.gone{opacity:.5}
+.lb .tools .adm{font-size:14px;font-weight:600}
+.lb .tools .adm.danger{background:#b3261e}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(10,20,30,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal[hidden]{display:none}
+.modal .box{background:#fff;color:var(--fg);width:min(480px,100%);max-height:100%;overflow:auto;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow)}
+.modal h2{margin:0 0 6px;font-family:var(--display);font-size:20px;color:var(--blue)}
+.modal label{font-size:14px;font-weight:700;margin-top:8px}
+.modal .opt{font-weight:400;color:var(--muted)}
+.modal input[type=text],.modal textarea,.modal select{font:inherit;width:100%;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--fg)}
+.modal input[type=file]{font:inherit;max-width:100%}
+.modal #fPrev{max-height:180px;max-width:100%;object-fit:contain;border:1px solid var(--line);border-radius:8px;margin-top:6px;align-self:flex-start}
+.modal .fmsg{min-height:1.4em;margin:6px 0 0;color:#b3261e;font-size:14px}
+.modal .acts{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:70;background:#14243a;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;max-width:min(560px,92vw);text-align:center}
+.toast.bad{background:#b3261e;border-radius:12px}
+.toast[hidden]{display:none}
+
+.secs{display:flex;gap:10px;padding-block:12px 2px;overflow-x:auto;scrollbar-width:none}
+.secs::-webkit-scrollbar{display:none}
+.sec{flex:1 1 0;min-width:max-content;display:flex;flex-direction:column;align-items:flex-start;border:2px solid var(--c);background:#fff;color:var(--c);border-radius:14px;padding:7px 16px;text-align:left}
+.sec b{font-family:var(--display);font-size:16px;font-weight:700;line-height:1.2}
+.sec small{font-size:12px;opacity:.85}
+.sec[aria-selected="true"]{background:var(--c);color:#fff}
+.secTitle{margin:0;font-family:var(--display);font-size:22px;line-height:1.2;color:var(--c,var(--blue))}
+.meta{justify-content:flex-start}
+.meta .seg{margin-left:auto}
+.also{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px;color:var(--muted);padding-bottom:12px}
+.also[hidden]{display:none}
+.alsoB{border:1.5px solid var(--c);background:#fff;color:var(--c);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.capn{font-size:13px;color:var(--muted)}
+.sp{background-size:cover}
+.lnk{border:0;background:none;padding:6px 0 0;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer}
+/* visor */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(6,14,9,.94);display:flex;flex-direction:column;color:#f1f6f2}
+.lb[hidden]{display:none}
+.lb .tools{display:flex;align-items:center;gap:8px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.lb .tools .t{margin-right:auto;font-family:var(--display);font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .tools button,.lb .nav button{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:999px;min-width:44px;height:44px;padding-inline:14px;font-size:18px}
+.lb .stage{flex:1;min-height:0;overflow:auto;display:flex;padding:0 8px}
+.lb .stage img{margin:auto;max-width:100%;max-height:100%;object-fit:contain;background:#fff;border-radius:6px;cursor:zoom-in}
+.lb .stage.zoom img{max-width:none;max-height:none;width:min(180%,1600px);cursor:zoom-out}
+.lb .nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.lb .nav span{font-size:14px;max-width:46ch;text-align:center;overflow-wrap:anywhere}
+@media (min-width:900px){.bar{padding-right:clamp(0px,9vw,130px)}}
+@media (max-width:520px){header.top.stuck .brand{display:none}.secTitle{font-size:19px}.sec{padding:6px 14px}.sec b{font-size:15px}.row{padding-block:8px 2px}.meta{padding-block:12px 10px}.logo{height:46px}.brand .sub{font-size:16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+.lnk{display:none!important}
+</style>
+
+<div class="bgfx" aria-hidden="true"><div class="frame"></div><img class="wm" src="img/logo_wm.webp" alt=""><svg class="c tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 424" preserveAspectRatio="xMaxYMin meet"><polygon fill="#E6E6E6" points="181,163 133,195 132,203 248,370 251,370 251,254 190,166"/><polygon fill="#EBA043" points="43,0 160,171 167,172 180,163 181,154 121,68 123,62 149,44 149,36 125,0"/><polygon fill="#6E9B2C" points="160,0 174,23 182,22 209,3 209,0"/><polygon fill="#14437C" points="211,0 201,10 124,63 124,70 248,249 251,249 251,0"/></svg><svg class="c bl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 420" preserveAspectRatio="xMaxYMin meet"><polygon fill="#E6E6E6" points="0,43 0,162 4,164 64,251 71,252 120,219 120,212 3,43"/><polygon fill="#EBA043" points="72,252 70,260 130,346 127,354 102,371 102,377 130,419 208,419 208,410 93,245 85,243"/><polygon fill="#6E9B2C" points="0,165 0,419 35,419 38,414 88,379 99,376 100,371 128,352 128,344 7,170"/><polygon fill="#14437C" points="91,410 78,392 72,392 45,410 44,419 91,419"/></svg></div>
+<div class="wrap" id="app">
+  <header class="top">
+    <div class="bar">
+      <div class="brand">
+        <img class="logo" src="img/logo.webp" alt="Drofar Comercializadora S.A.S.">
+        <p class="sub">Portafolios de productos</p>
+      </div>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar en medicamentos" autocomplete="off" aria-label="Buscar en la sección actual">
+        <button id="clr" aria-label="Borrar búsqueda" hidden>×</button>
+      </div>
+    </div>
+    <nav class="secs" id="secs" role="tablist" aria-label="Portafolios"></nav>
+    <div class="row" id="cats" role="group" aria-label="Categorías"></div>
+    <div class="row letters" id="letters" role="group" aria-label="Letra inicial" hidden></div>
+  </header>
+
+  <p class="modeNote" id="modeNote" hidden></p>
+  <div class="meta">
+    <h2 class="secTitle" id="secTitle"></h2>
+    <span id="count" aria-live="polite"></span>
+    <div class="adminbar" id="adminbar" hidden>
+      <span class="pill">Modo editor</span>
+      <button class="btn pri" id="addBtn">Agregar producto</button>
+      <span class="capn" id="cap"></span>
+      <button class="btn" id="remTgl" aria-pressed="false" hidden>Quitadas (0)</button>
+    </div>
+    <div class="seg" role="group" aria-label="Vista">
+      <button id="vGrid" aria-pressed="true">Cuadrícula</button>
+      <button id="vSheet" aria-pressed="false">Hoja a hoja</button>
+    </div>
+  </div>
+
+  <div class="also" id="also" hidden></div>
+
+  <main id="main"><div class="grid" id="grid"></div></main>
+  <footer>Cada hoja es la página original de su portafolio. El buscador solo busca dentro de la sección que estás viendo y usa un índice armado a partir de las fotos de los empaques; si un producto no aparece, revisa la categoría o prueba con otra palabra.<br><button class="lnk" id="edTip">Acceso de edición</button></footer>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Página del portafolio" hidden>
+  <div class="tools">
+    <div class="t" id="lbT"></div>
+    <button id="lbE" class="adm" hidden>Editar</button>
+    <button id="lbR" class="adm" hidden>Quitar</button>
+    <button id="lbZ" aria-label="Ampliar o reducir">+</button>
+    <button id="lbX" aria-label="Cerrar">×</button>
+  </div>
+  <div class="stage" id="stage"><img id="lbI" alt=""></div>
+  <div class="nav">
+    <button id="lbP" aria-label="Página anterior">‹</button>
+    <span id="lbC"></span>
+    <button id="lbN" aria-label="Página siguiente">›</button>
+  </div>
+</div>
+
+
+<div class="modal" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" hidden>
+  <form class="box" id="dlgForm" novalidate>
+    <h2 id="dlgTitle">Agregar producto</h2>
+    <label for="fName">Nombre del producto</label>
+    <input id="fName" type="text" maxlength="80" placeholder="Ej. Cefixima" autocomplete="off">
+    <label for="fKw">Marcas o palabras para buscarlo <span class="opt">(opcional, separadas por coma)</span></label>
+    <textarea id="fKw" rows="2" maxlength="300" placeholder="Ej. Suprax, 400 mg, cápsulas"></textarea>
+    <div id="rowSec">
+      <label for="fSec">Sección</label>
+      <select id="fSec"></select>
+    </div>
+    <div id="rowCat">
+      <label for="fCat">Categoría</label>
+      <select id="fCat"></select>
+    </div>
+    <div id="rowImg">
+      <label for="fImg" id="fImgLbl">Imagen de la página</label>
+      <input id="fImg" type="file" accept="image/*">
+      <img id="fPrev" alt="Vista previa" hidden>
+    </div>
+    <p class="fmsg" id="fMsg" role="alert"></p>
+    <div class="acts">
+      <button type="button" class="btn" id="dlgCancel">Cancelar</button>
+      <button type="submit" class="btn pri" id="dlgSave">Guardar</button>
+    </div>
+  </form>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+var RAW = {
+med: `1|Portada, Drofar, portafolio de productos
+2|Acetaminofén, Cronofen, Sanafen, paracetamol
+3|Acetaminofén, Ametrex, Genfar, Dolicox
+4|Acetaminofén, Dolicox Forte, Genfar Dol, O.K.A.P., Aflixol, codeína, cafeína
+5|Acetaminofén jarabe, gotas, pediátrico, Cronofen
+6|Acetilcisteína, Flumixol, Zifluvis, granulado
+7|Aciclovir crema, Activiral, Carbaprof, Vitalis
+8|Aciclovir tabletas, Acyclovir, Alviret, Genfar, Laproff
+9|Ácido fólico, ácido acetilsalicílico, ácido valproico, ácido fusídico, Folic Prevent, Avalpric, Fibrilok
+10|Albendazol, Finapar, suspensión, tabletas
+11|Alopurinol, Aceclofenaco, Ainedix, Alendronato
+12|Amoxicilina, Orvimox, Solomoxy, Deltmoxi, Amokem, clavulánico
+13|Amoxicilina suspensión, Eumoxina, polvo
+14|Ampicilina, Ambigel, Deucilina, AmDelt
+15|Amlodipino, Amigard, Ecar
+16|Amitriptilina, Atorvastatina, Riscol
+17|Azitromicina, Bakzia, Fonkink, Azitrobac, Angifal, Deltatrom
+18|Azitromicina, Koptin, Azitrobac, suspensión
+19|Betametasona crema, Tudermifar, Fuciclear, Laproff
+20|Betametasona 0.1% crema
+21|Betametasona inyectable, Betazkov, ampollas
+22|Benzoato de bencilo, Zynapet, Buclizina, Dietrex, Betahistina, Vaio, Bilastina, Bilaxten
+23|Bisacodilo, Farmalax, Humax
+24|Cetirizina, Cetirizina jarabe, Zeridil, kids
+25|Cetirizina, Cetirrinol, Zirin, Ecar
+26|Cefalexina, Enfarxin, Ceprax, suspensión
+27|Ceftriaxona, Celecoxib, Celicob, Etamsilato, Stan Ka
+28|Calcio, Orocal, Zivical, carbonato de calcio, vitamina D3
+29|Clear-forte, Dermi clear, jabón, limpiador
+30|Verisativ, Duosativ, Vasomed, Venuslife, gel, várices
+31|Ciprofloxacino, Plurigram, Procatec, Cifloblas
+32|Clindamicina, Clinbac
+33|Claritromicina, Macromycin
+34|Clopidogrel, Platemax, Carvedilol, Cloranfenicol, Carbamazepina, Crotamitón, Liroderm, Chiquident, lidocaína
+35|Colchicina
+36|Colirios, gotas oftálmicas, Cifloblas, Lagrimart, Tikoj, cromoglicato, Lagrikov, lágrimas artificiales, Vital Vision
+37|Clorfeniramina, maleato, jarabe, Ecar
+38|Complejo B, Ecar
+39|Clotrimazol vaginal, Gyno Comfort, Albiogyn, Rocicream, Entrenosbx
+40|Clindabact, Kandix-V, Mikium, vaginal
+41|Clotrimazol óvulos, Feveny, estrógenos conjugados, Clindabact, Lindazol
+42|Clotrimazol 1% solución, crema, Miclotrim
+43|Clobetasol, Pentasol, Difazin, Clobecare, Tridirtex, Trimicort, Deprosol, Clobent Tridex
+44|Clobetasol solución tópica, Tridirtex, Trimicort
+45|Desloratadina, jarabe, Oxiclarine, Brenymg
+46|Desloratadina, Desna, Impodina, Oxiclarine
+47|Deflazacort, Cortidexan
+48|Dexametasona, fosfato, ampollas, Dexablas, Genfar, Vitalis
+49|Dexametasona, ampollas, Biosano, Vitalis
+50|Diclofenaco sódico, ampollas, inyectable, Noriflam, Zaway, Vitalis
+51|Diclofenaco, Diflenac, Dormex, gel 1%, retard
+52|Dolotrin gel, Volta Flex, Atletic, linimento, dolor muscular
+53|Difenhidramina, Eucodina, dihidrocodeína, jarabe
+54|Doxiciclina, Dicloxacilina, Beciprof, Vibradox, Doxicilor, Kencycaps
+55|Dipirona, Dosaldin, Desonida, Desokort, Laper
+56|Diosmectita, Treda, Basilox, antidiarreico
+57|Dimenhidrinato, Pasedol, Mare-Off, mareo
+58|Esomeprazol, Novamed
+59|Etoricoxib, Lexib, Enalapril, Espironolactona
+60|Fexofenadina, Fexodina, Ecar
+61|Fluconazol, Sifei, Cindimizol, Sidogal, secnidazol
+62|Furosemida, Fluoxetina, Flunarizina, Fexofenadina
+63|Fitobremg, crema
+64|Gluconato de potasio, Ion-K, Glibenclamida, Gemfibrozilo
+65|Gentamicina, Gentavision, Conjugent, ampollas
+66|Hidroxicina, Clemaskov, Hidroxfar
+67|Hioscina, N-butilbromuro, Diuxotón, ampollas
+68|Hioscina, Espasmokov, Espasmobil, Viceralgina, Dolorsin Complex, Dolorsin Fem
+69|Fin-espam, hioscina, Fem
+70|Hidrocortisona, Cortisolona crema, inyectable
+71|Hidroclorotiazida, Genfar, Memphis
+72|Antiácido, Milacid, Gastro Full, Flatucid, Supreflux Forte, reflujo
+73|Antiácido, Milacid, Gastrofull, Magnesio, Calymag
+74|Antiácido, Digeviar, Alginacid, Algina Flut, hidróxido de aluminio
+75|Itraconazol, Micotrazol
+76|Ibuprofeno, Aido Ultra, Dolorsin, IbuproDet, 400 mg
+77|Ibuprofeno 800, Quimoral, Genfar, Ibuprofeno compuesto
+78|Ibuprofeno niños, Dolinstan, suspensión
+79|Ivermectina, Simpiox, Iverblas
+80|Ketoconazol shampoo, Hongicil, Itracasp, Vitpel, Medishamp
+81|Ketoconazol shampoo, DKPEL, Ketotifeno, Sanfer
+82|Ketoprofeno gel, Ketoconazol crema, tabletas
+83|Loratadina, Eutarpan, Lordinex, jarabe
+84|Loratadina, Loreze, Lordinex, Eutarpan
+85|Levofloxacino, Flurinex, Safelevo, Levetiracetam, Lepilev, Levocetirizina, Zyxem, Levodropropizina, Levodrine
+86|Lansoprazol, Lanzor, Lactulosa, Constilax
+87|Losartán, losartán potásico, Genfar
+88|Losartán, Tensofar
+89|Levonorgestrel, Postday, Postinor, Evinet, Libelle, Activa 21, anticonceptivos, píldora del día después
+90|Loperamida, Lamdotil, Crotamitón, Liroderm
+91|Lincomicina, Benklamid, Lincodelt, Vitalis
+92|Metronidazol, Krodex F, Tropixim-F, Metronist, Diarset-M, óvulos, nistatina
+93|Metronidazol, Mebicitrol, Amefar, jarabe, óvulos
+94|Metocarbamol, Mioflex, Sanfer
+95|Meloxicam, Leuxicam, Rodiflex, Henoclox, Mexican, Inoxicam, Meblainex
+96|Metoclopramida, Plasil
+97|Montelukast, Metformina, clorhidrato
+98|Metocarbamol, Ibuprofeno, Espasmydol, Binafar, Sinaxar A
+99|Minoxidil 5%, loción, Laproff
+100|Naproxeno, Naproflash Forte, Novamed
+101|Naproxeno, Perclusone, Suprim-D, AG
+102|Naproxeno, 250 mg, 500 mg, Laproff
+103|Naproxeno suspensión, Suprim-D, Ortoflex L
+104|Nafazolina, Dilaoftal, Naf Vision, gotas
+105|Norfloxacino, Floxfar, Nifedipino, Nimesulida, Gelnida gel
+106|Nistatina, Tisat, Becolit, óxido de zinc
+107|Nitrofurazona, Nitrofur, Nitrofurantoína, Diviaren
+108|Nitazoxanida, Proxanida, Loisten, Nitofar, Nitoxipar, Xinpa
+109|Nitazoxanida, Taxen, Nitoxipar, Nitxan
+110|Oximetazolina, Oxifree, nasal
+111|Omeprazol, Prazed, Prozidex, K-Delprazol, Ulcepar
+112|Orlistat, Grazilan
+113|Probióticos, prebióticos, Procilus, Florasil, Vital probióticos
+114|Piridoxina, Polietilenglicol, Bio-glicol, Picosulfato, Anara
+115|Pamoato de pirantel, Pirel
+116|Piroxicam, Veran D, Osteosan
+117|Penicilina, Penviotina, Penicilina G benzatínica
+118|Pregabalina, Proclor
+119|Prednisolona, Prednioftal F
+120|Pantoprazol, Pantocal, Pecticao, caolín pectina
+121|Oftálmicos, Oftalmotrimax, Polioftal, Vitatriol, ungüento
+122|Quetiapina, Tiquepin, Avarin, Gogaz, simeticona, Sícatri-C
+123|Sultamicilina, Tacna, Bacmiciline
+124|Silimarina, Silymarin, Bilsyl, hígado
+125|Sertralina, Sertranquil
+126|Secnidazol, Leberlim, Seamib
+127|Sildenafilo, Gelpin, Erecfor
+128|Sulfadiazina de plata, Sulfazán, Soriderm, shampoo
+129|Sulfato de zinc, Zincolicol, Enerzinc, Sulfato ferroso, hierro
+130|Salbutamol, Salbumed, aerosol, jarabe
+131|Tamsulosina, Demulin
+132|Trimebutina, Fitraless, Coltrim
+133|Tadalafilo, Tadet, Ludika, Tafyn
+134|Trimetoprim sulfametoxazol, Bactisol, Supribac F
+135|Trimetoprim sulfametoxazol, jarabe, Ecar
+136|Tramadol, gotas, Tramasindol
+137|Tramadol, ampollas, Ecar
+138|Tamsulosina, OD-TAM, Telmisartán, Renancio Plus, Tor, crema proctológica
+139|Tizanidina, Relaxkov, Alertadina, Tinidazol, Membitrol
+140|Tobramicina, Tobroptic, Tobra Vision, Timolol, Prestiblock, gotas
+141|Terbinafina, Terbifeet, crema
+142|Tiamina, vitamina B1, inyectable
+143|Vitamina B12, Bedoyecta Tri, Miodin B12, ampollas
+144|Valaciclovir
+145|Vitamina A, TR Caps
+146|Vitamina E, Enat, aceite facial
+147|Multivitamínico, Fosfocrina, Nutra Factors, Enerxis
+148|Complejo B, Activit-B, VIB Plus, zinc
+149|Vitamina C, zinc, C3 Max, Bremmyg
+150|Vitamina C, Vical, La Santé, masticable
+151|Aloe vera, NAD+, resveratrol, Totalmax
+152|Gummy, gomitas, suplemento, resveratrol
+153|IOFI, omega 3, DHA, Inositol
+154|Vioxin, Yodinfex, povidona yodada, agua oxigenada, Bactroderm
+155|Antihongos, Dermibon, Vitpel, Fungosol, Ungusil, K-Llosil, Vencedor, antiséptico
+156|Gripa, Congestex, Alivium, Resfrygrip, Resogripfar, Gripac4
+157|Gripa, Altachis, Dolofen, Ashar
+158|Gripa, Resfrygrip, Noxpirin, Propolvik, Congestex
+159|Garganta, Iseptic, Tolvu, pastillas
+160|Tos, Bromvox, Eugica Cof, GRP, Ali-Gar, Refreslyp
+161|Tos, Propolvik, Lyptus
+162|Garganta, Beemint, Satifresh, pastillas
+163|Spray bucal, Vioxin, Isaptic, Lyptus spray
+164|Jarabe para la tos, Dosflem, Notusin, Mucotrop, Muxol, Flemoxin, Hederon
+165|Expectorante, Neumolex, Muxol, Bromyl, Ambroxol, Curatos, Flemoxin, Mucotrop
+166|Expectorante, Guayaprof, Guayacolato de glicerilo, Flexvi, Athen, Neumuc, Fluimed
+167|Hedera helix, propóleo, Abralix, Expectos
+168|Tolumo, Jengiprol, Toto-Mon, Mucozip, Apithos, Totun
+169|Pectonat, Bron24, Letusin, Propolvik, Propoleovid
+170|Cremas, Derprosol Trex, Benlic, Neotrisona, Dertrifar, Limpiaderm, Metatitane, Fungimed, Derma-3
+171|Cremas, Micotopic, Ephitree, Dkg, Neclobet, Trinsicon
+172|Suero, Venovit, dextrosa 5%
+173|Sales de rehidratación oral, Salydrat
+174|Hidromx 70, bebida rehidratante`,
+nat: `1|Portada, Drofar, portafolio de productos naturales
+2|Gomitas, Gummies, Cre-C, Naturalsplast, calostro bovino, maca, vitaminas y minerales, gelatina
+3|Fybofort, Fybofort Psyllium, Psyllium, Vitafib, Total Fibra, Totalmax, Spabolaz, fibra natural, laxante
+4|Laxacol, Plaxavil, 7-P, Pasitol, Waslim, té verde, Dipuorg, Parsitol, Parasitol, laxante, Satibo
+5|Hälsa, Halsa Plus, Culon-SN, Col-Qn-Sn, Fiberclean, Vital-Fibra, LG Naturales, piña ciruela papaya, psyllium, probióticos, fibra, linaza
+6|Citrato de potasio, Alnature, Korean Ginseng, Panax ginseng, Natural Nutrition, Complejo B, Natural Medicine, softgels
+7|Activox, Activox Jengibre, Mieltertos, Mieltertos Noche, Mieltertos Día, panela, limón, naranja, jengibre, mora silvestre
+8|Mieltertos, Mieltertos Zero, Activox Ice, propóleo, stevia, miel, polen, caramelos, mentol
+9|Paratos, Paratos Hedera Helix, jarabe expectorante, hedera helix, miel, Natural Freshly, cápsulas
+10|Mieltertos jarabe, Mieltertos Niños, tolú, saúco, eucalipto, miel y propóleo, antitusivo, expectorante
+11|Omega 3, Omega 3-6-9, Colsrol Forte, Colsrol, Totalmax, vitamina E, cápsulas blandas, 2x1
+12|Finacil, Finacil Refi, Ulfeno, Milan-T, Kdula, Aloe Vera, Naturalsplast, caléndula, antiinflamatorio, manzanilla
+13|Motibex, Bon Sleep, Bon Sleep Repak, esencias florales, Good Sleep, Power Men, Sexy Ladys, Passiflora, sueño, ansiedad
+14|Val-Pas, Anstress, BNP, Oxi Hi, Bremymg, lechuga, manzanilla, cidrón, magnesio, triptófano, relajante
+15|Vinagre Plus, Vinagre de manzana, Vinagre Manzana Cidra, berenjena, alcachofa, rábano, Natural Freshly
+16|Vitaban, Kemi-Vit, Kemi, jalea, extracto de malta, ácido fólico, hierro, calcio, zinc
+17|Brovijen, Propolfin, Impropoleo, Propomielito, Propóleo, Apithos, Propoleovid, Propomiel, LG Naturales, jengibre, miel de abejas
+18|Ciruelfort, Ciruelfort Max Forte, Diuremax, Peristop, Gax Off, Valeriana, Colicort, Colicort Max Forte, Hepatodren, Urovital, cranberry, laxante, diurético, gases, hígado
+19|Cloruro de magnesio, Magnesio, Animorroida, Animorroida Max Forte, Freshlypausia V, gel lubricante íntimo, hemorroides, soya, wild yam
+20|Mega Fresh, Dril, Total Max, Hino Es Platinum, Powerx, Maxifor, Maxifor Chontaduro, maca, borojó, chontaduro, potencia
+21|Hemofol, Blood Iron, Bremymg, Ferr Znc, Nutrimed, Nutrox B, BNP, hierro, complejo B, ácido fólico
+22|Calostro Bovino, Calostrum, Totalmax, Nutrimed, Calostro Vid, vitamina C, soya, stevia
+23|Antritico, Calcimax, Calcio, Vitamina D3, Totalmax, Medical Farma, calcio
+24|Vino Cerebral, Distriyita, Alemana Mitgin, Vitafrancesa, Vitacer, jalea, borojó, maca, chontaduro
+25|Vitafrancesa, Vita Francesa, Vitafrancesa Granulada, borojó, maca, cereza, kiwi, pectina, Naturalsplast
+26|Vitafrancesa, Vita Francesa, grageas, Naturalsplast, stevia, maca, borojó
+27|Prost-RT, Api-Folt, Totalmax Fox, Fox, fósforo y zinc, próstata, pera, tomate, cúrcuma, vitaminas
+28|Citrato de magnesio, Vitamina E, selenio, Magnesio Potasio, Complejo B12, Ruscus, Súper Multivitamínico, Totalmax, Naturalsplast
+29|SG Pharma, Citrato de magnesio, Chanca piedra, Ashwagandha, Resvicol, Resvicol 3X, Orégano, resveratrol, colágeno, homeopático
+30|Bio Fem, Rege 4, Bemom, LG Naturales, resveratrol, ácido fólico, arándanos, zinc, hierro, perejil
+31|Colagemix, Collagen Plus, Colagenvit, Resveratrol, Resvinat, Nutrimed, BNP Gold, colágeno hidrolizado, magnesio
+32|Resveratrol 600, Totalmax, Calcio D3 Colágeno, Colágeno y Biotina, Colágeno Alnature, vitamina E, colágeno hidrolizado
+33|Colágeno hidrolizado, ácido hialurónico, Factor 2.5, Totalmax, Ecar, vitamina C, magnesio
+34|Colágeno BNP, Colágeno Premium, Colagen Mix, Colagenvit, Be Collagen, Nutrimed, Hälsa Colágeno, Biotin, LG Naturales, aloe vera
+35|Colágeno Marino, Colgmar, Colagmar, Naturalsplast, Natural Freshly, cloruro de magnesio, gel de pectina
+36|Nutrefort, Nutrefort Plus NFL, Nutrefort Whey Protein, VT-Power, proteína de suero, whey protein, L-glutamina, Naturalsplast
+37|Creatine, Creatine Monohydrate, CR7 Power, Whey Protein Creatine, BNP, Radical, Nutramerican, Naturals Herbacals, pre-entreno
+38|Ginsvic, Tercefiblue, Todo en Uno, Fosbril, Candyday, Canadypat, Potencial+, Multimaxx, Naturalsplast, stevia, calostro, maca, borojó
+39|Chankpdra, Chancapiedra, Champied, Rompecal, BNP, Naturalsplast, apio, perejil, cálculos
+40|ART3, Glucosartrin, Glucosartrin Plus, glucosamina, colágeno hidrolizado, colágeno marino, cúrcuma, magnesio, articulaciones
+41|HG-Gassan, R-San, Dbetsol, Apio y Perejil, Hepvit, Drenolax Pluss, Naturalpharma, Naturalsplast, alcachofa, berenjena, mangostino
+42|Pross-Lan, LG Naturales, Proxil, Prstnol, BNP, níspero, arándanos, hierbabuena, apio, próstata
+43|Amar-Sulfur, Uncaton, BNP, Naturals Herbacals, flor de jamaica, uña de gato, té
+44|Confrei, Disoltedra, Circulen, Naturalpharma, Naturalsplast, León, cranberry, arándanos, romero, cúrcuma
+45|Transfiac, Clorofil, Moringa, Cranberry, Full Cranberry, Licopeno, Totalmax, Naturalsplast, Satibo, clorofila, stevia
+46|Soyprot, Complex Plus, Bremym Sure Plus, Bremym Sure, Nutrimed, Satibo, proteína de suero, soya, vainilla, fresa
+47|Bremym Sure Kids, Serebx, Vtboys, Kinder-P, Complex Plus Children, Enforms, BNP, Nutrimed, Satibo, niños, avena, probióticos
+48|Enforms para Kids, Daya Pet, D-yabron, Soy Cal Kids, Vtboys, Dayabral, Forty, Bremymg, BNP, Naturals Herbacals, vitaminas, niños
+49|Ice Gel Caléndula y Árnica, Caléndula, Bobo-Fresh, Doctor Ice, Ice Gel María Juana, Crema Forz, Forz, Kartiflex, Kartiflex Complex, gel refrescante, salicilato de metilo
+50|Vapor Indio, Vapor Indio ungüento, Ungüento Indioxín, Indioxín, Pomada Llanera, Cascabelina, Indu, RCÁ, eucalipto, mentol
+51|Aceite de Ricino, Aceite de Almendras, Aceite de Coco, Olew, Quimblan, RCÁ, Yoma, aceites
+52|Violeta de Genciana, Tintura de Valeriana, Miel de Rosas, Tintura de Árnica, Aceite Mineral, Azul de Metileno, Amoníaco, Tintura de Benjuí, Glicerina, Rhifisol, Quimblan, suero fisiológico
+53|Agua de Rosas, Lustrapel, Vaselina, Vaselina Pura, Brillantina, Vaselina Fresa, Vaselina Baby, Vaselina Coco, Color-1, RCÁ, Drofar
+54|Alcanfor, Naftalina, Naftalina Tarro, Sulfato de Magnesio, León, Drofar
+55|Formol, Formol Quimblan, Específico, Yodo Negro, Quimblan
+56|Piedra Alumbre, Sulfato de Magnesio, Ácido Bórico, Sal Marina, Quimblan, Drofar, 20G, 125G, 250G, 500G
+57|Hojas de Boldo, Hojas de Sen, Borax, Bicarbonato de Soda, Azufre en polvo, Cremor Tártaro, Quimblan, Drofar`,
+dis: `1|Portada, Drofar, portafolio de dispositivos médicos y otros
+2|Medispo, jeringas, jeringa, 1 ml, 2 ml, 3 ml, 5 ml, 10 ml, 20 ml, 50 ml, 60 ml, catéter intravenoso, tipo lapicero, equipo de infusión
+3|Medispo, gasa, gasas, Cura adhesiva, curas, copitos, aplicadores, algodón
+4|Supreme, venda elástica, venda de yeso, venda de algodón, Medispo, vendas
+5|Recolector de orina, frascos para muestras, Granandina, gorros desechables, bata desechable, Allmed
+6|Apósitos oculares, Begut, Kids, inhalocámara, Supreme, adultos, niños
+7|Cinta microporosa, Supreme, esparadrapo, cinta de tela, Ziroject, micropore
+8|Termómetro digital, Granandina, Corchito, termómetro animalitos, punta flexible, punta rígida
+9|Protexion, guantes de nitrilo, Protex, Examtex Plus, guantes de látex, guantes de examen
+10|Supreme, tapabocas, tapabocas desechables, Kids, tapabocas niños, mascarilla, Protex
+11|Early Test, Home Test, prueba de embarazo, Cassette, Indiker, prueba digital
+12|Preservativos, condones, Sens, Poseidon, Z-Ject, Prudence, Prudence Corrugado, Prudence Retardante, Prudence Clásico
+13|Lander, removedor de esmalte, removedor, Lander Pro, Charleston, semi permanente, uñas
+14|Lander, Fashion Colors, esmaltes, esmalte de uñas
+15|Jabón líquido íntimo, Natural Freshly, Urovital, Trivag Fem, Trivag, Gynofil, baño íntimo, cranberry, caléndula
+16|Lander, Piel Extra Seca, Todo Tipo de Piel, Piel Sensible, Crema Protectora, Bethel, loción hidratante, talco, talco para pies, antibacterial
+17|Sorel, Sorel Plus Sun, protector solar, Lab Sorel, hidroquinona, Aced Piel, bloqueador, SPF 50
+18|Dertrimax, Body Mantle, acetato de aluminio, Skin Plus, Totalmax, loción corporal, vitamina A
+19|Lander Baby, talco, crema líquida, colonia, shampoo, aceite, bebé
+20|Corchito, Kit Bebé, teteros, biberones, 3 biberones
+21|Corchito, Infanticos, biberones, chupos, chupo, tetero, chupo aromatizado
+22|Corchito, Infanticos, Moby, protectores de pezón, recolector de leche, extractor de leche, aspirador nasal, cortaúñas, Looney Tunes, bolsas recolectoras
+23|Baby Soul, toallitas húmedas, Corchito, llavero, vaso boquilla, sonajero, mordedor
+24|Color-1, Color-1 Plus, tinte, tinte para cabello, tinte para cejas, Oxigenta, Plex, Nutribell, oxidante, agua oxigenada
+25|Color-1, aceite capilar, Argán, Coco, Cebolla y Romero, Keratina, Chía, Shampoo 18.1, Tratamiento 28 en 1, Carbómero, Polímero, Glicol
+26|Silicona capilar, Color-1, crema depiladora, Nutribell, Aceite Capilar Argán, Coco, Cebolla, Shampoo Nutrición y Fuerza, depilación
+27|Laca, Color-1 Laca, Gel para el cabello, Chenier, Champiojo, Urgo, piojos, aceite
+28|Jabón en barra, Ortiga, Petróleo, Avena, Sangre de Drago, Tierra, Ruda, Carbón Activado, Antigné, Arroz con leche de cabra, Caléndula, Azufre, Natural Freshly, Rosal
+29|Lander, desodorante, Lander Ozonic, Lander Talc, roll on, Licsy, aceites, Totalmax, Maracuyá, exfoliante, Liesy, crema reductora
+30|Cutagel, Aiphex, Biocure, cicatrices, ácido glicólico, gel
+31|Fly Free, jabón repelente, repelente, Tridex, Family, Mosquitos Out, citronela, mosquitos, spray
+32|Oral-Plus, enjuague bucal, enjuague bucal niños, Cuidado Total, Menta Fresca, Haz Gárgaras
+33|Oral-Plus, crema dental, Super White, carbón activado, Cuatri Acción, Cool Mint, seda dental, Maxi-Dent, cera para brackets
+34|Oral-Plus, cepillo de dientes, cepillos, cepillos interdentales, Vetix, Tex Media, carbón
+35|Oral-Plus, cepillos, Comfort, Complete, x3, cepillo de dientes
+36|Oral-Plus, crema dental niños, Sabor Chicle, Sabor Tutti Frutti, sin flúor, súper oferta, cepillo
+37|Oral-Plus, kit niños, Kids Bonite, Cristal, Kit Junior, cepillos, crema dental, estuche
+38|Oral-Plus, Kids Bonite, Dinosaur Kids, Children's, Cristal, cepillo de dientes niños
+39|Skin Plus, protector labial, Hydrastick, bálsamo labial, ácido hialurónico, MED, Açaí, Totalmax, cera de abejas`
+};
+var FILE_LIMIT = 511, BASE_FILES = 282;
+var PER = 40, COLS = 8;
+
+var SEC = [
+  {id:'med', name:'Medicamentos', short:'Medicamentos', color:'#14437C', pre:'p', spr:'a', total:174,
+   cats:[
+    {id:'med', name:'Medicamentos A–Z', r:[[2,144]], az:true},
+    {id:'vit', name:'Vitaminas y suplementos', r:[[145,153]]},
+    {id:'ant', name:'Antisépticos y antihongos', r:[[154,155]]},
+    {id:'gri', name:'Gripa, tos y garganta', r:[[156,169]]},
+    {id:'cre', name:'Cremas tópicas', r:[[170,171]]},
+    {id:'hid', name:'Hidratación', r:[[172,174]]}],
+   letters:[['A',2,18],['B',19,23],['C',24,44],['D',45,57],['E',58,59],['F',60,63],['G',64,65],['H',66,74],['I',75,79],['K',80,82],['L',83,91],['M',92,99],['N',100,109],['O',110,112],['P',113,121],['Q',122,122],['S',123,130],['T',131,142],['V',143,144]]},
+  {id:'nat', name:'Productos naturales', short:'Naturales', color:'#4a7418', pre:'b', spr:'b', total:57,
+   cats:[
+    {id:'dig', name:'Fibra, digestivos y vinagres', r:[[3,5],[15,15],[18,18]]},
+    {id:'tos', name:'Tos, garganta y propóleo', r:[[7,10],[17,17]]},
+    {id:'sue', name:'Sueño y relajantes', r:[[13,14]]},
+    {id:'vit', name:'Vitaminas, minerales y tónicos', r:[[2,2],[6,6],[11,11],[16,16],[21,28]]},
+    {id:'col', name:'Colágeno y suplementos', r:[[29,35]]},
+    {id:'dep', name:'Deportivos y proteínas', r:[[36,37]]},
+    {id:'beb', name:'Bebidas naturales', r:[[12,12],[38,45]]},
+    {id:'nut', name:'Nutrición y niños', r:[[46,48]]},
+    {id:'int', name:'Salud íntima y energía', r:[[19,20]]},
+    {id:'ung', name:'Ungüentos y aceites', r:[[49,52]]},
+    {id:'vas', name:'Vaselinas, alcanfor y químicos', r:[[53,57]]}]},
+  {id:'dis', name:'Dispositivos médicos y otros', short:'Dispositivos', color:'#a85a08', pre:'c', spr:'c', total:39,
+   cats:[
+    {id:'cur', name:'Insumos y curación', r:[[2,7]]},
+    {id:'pro', name:'Termómetros y protección', r:[[8,10]]},
+    {id:'emb', name:'Embarazo y preservativos', r:[[11,12]]},
+    {id:'pie', name:'Piel e higiene personal', r:[[15,18],[29,30],[39,39]]},
+    {id:'cab', name:'Uñas y cabello', r:[[13,14],[24,27]]},
+    {id:'beb', name:'Bebé', r:[[19,23]]},
+    {id:'jab', name:'Jabones y repelentes', r:[[28,28],[31,31]]},
+    {id:'ora', name:'Higiene oral', r:[[32,38]]}]}
+];
+var SECBY = {};
+SEC.forEach(function(s){
+  SECBY[s.id] = s;
+  s.raw = RAW[s.id].split('\n').map(function(l){var i=l.indexOf('|');return {n:+l.slice(0,i),kw:l.slice(i+1)}});
+  s.cats.forEach(function(c){c.first=c.r[0][0];c.last=Math.max.apply(null,c.r.map(function(x){return x[1]}))});
+});
+
+var OFFLINE = !!window.IMGS;
+var LOCAL = {};
+var ART = null, admin = false;
+var CAT = {v:2, extras:[], removed:[], edits:{}};
+var ITEMS = {};
+var state = {sec:'med', q:'', mode:'grid', showRem:false, list:[], per:{}};
+SEC.forEach(function(s){state.per[s.id]={cat:'all',letter:null}});
+
+var $ = function(id){return document.getElementById(id)};
+function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function pad(n){return String(n).padStart(3,'0')}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function url(path){
+  if(LOCAL[path]) return LOCAL[path];
+  if(OFFLINE && window.IMGS[path]) return window.IMGS[path];
+  return path;
+}
+function safeImg(p){return typeof p==='string' && /^img\/x_[A-Za-z0-9_.-]+\.(webp|jpg)$/.test(p)}
+function cur(){return SECBY[state.sec]}
+function catById(s,id){for(var i=0;i<s.cats.length;i++){if(s.cats[i].id===id)return s.cats[i]}return null}
+function catOf(s,n){for(var i=0;i<s.cats.length;i++){var r=s.cats[i].r;for(var j=0;j<r.length;j++){if(n>=r[j][0]&&n<=r[j][1])return s.cats[i].id}}return ''}
+function letterOf(s,n){if(!s.letters)return null;for(var i=0;i<s.letters.length;i++){if(n>=s.letters[i][1]&&n<=s.letters[i][2])return s.letters[i][0]}return null}
+function firstLetter(t){var c=norm(String(t).trim()).charAt(0).toUpperCase();return /[A-Z]/.test(c)?c:'#'}
+function mk(o){o.parts=o.kw.split(',').map(function(x){return x.trim()}).filter(Boolean);o.norm=norm(o.kw);return o}
+function byName(a,b){return norm(a.name).localeCompare(norm(b.name))}
+
+/* ---------- datos ---------- */
+function build(){
+  var rem={};CAT.removed.forEach(function(k){rem[k]=1});
+  SEC.forEach(function(s){
+    var az = s.cats.filter(function(c){return c.az})[0] || null;
+    var orig = s.raw.map(function(r){
+      var key=s.id+':'+r.n, e=CAT.edits[key];
+      var c=catOf(s,r.n);
+      return mk({key:key,sec:s.id,n:r.n,extra:false,cat:c,letter:(az&&c===az.id)?letterOf(s,r.n):null,
+        kw:(e&&typeof e.kw==='string'&&e.kw)||r.kw,removed:!!rem[key],img:'img/'+s.pre+pad(r.n)+'.webp'});
+    });
+    var ex = CAT.extras.filter(function(e){return e&&e.sec===s.id&&safeImg(e.img)}).map(function(e){
+      var c=catById(s,e.cat), isAz=!!(c&&c.az), nm=String(e.name||'');
+      return mk({key:'x:'+e.id,id:e.id,sec:s.id,n:null,extra:true,cat:c?c.id:'',az:isAz,letter:isAz?firstLetter(nm):null,
+        name:nm,rawKw:String(e.kw||''),kw:nm+(e.kw?', '+e.kw:''),removed:false,img:e.img,t:+e.t||0});
+    });
+    var anchors={};
+    ex.forEach(function(p){
+      var c=catById(s,p.cat), a=s.total;
+      if(c&&c.az){
+        a=c.first-1;
+        if(p.letter!=='#'){s.letters.forEach(function(L){if(L[0]<=p.letter)a=L[2]})}
+      }else if(c){a=c.last}
+      (anchors[a]=anchors[a]||[]).push(p);
+    });
+    var out=[];
+    orig.forEach(function(p){
+      out.push(p);
+      var a=anchors[p.n];
+      if(a){a.sort(function(x,y){return x.az?byName(x,y):(x.t-y.t)});out=out.concat(a)}
+    });
+    ITEMS[s.id]=out;
+  });
+}
+function loadCatalog(){
+  if(window.CATALOG) return Promise.resolve(window.CATALOG);
+  var f=fetch('data/catalog.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null});
+  var t=new Promise(function(res){setTimeout(function(){res(null)},2500)});
+  return Promise.race([f,t]);
+}
+function sane(c){
+  c=(c&&typeof c==='object')?c:{};
+  var rem=(Array.isArray(c.removed)?c.removed:[]).map(function(x){return typeof x==='number'?'med:'+x:String(x)});
+  var ed={};Object.keys((c.edits&&typeof c.edits==='object')?c.edits:{}).forEach(function(k){ed[/^\d+$/.test(k)?'med:'+k:k]=c.edits[k]});
+  var ex=(Array.isArray(c.extras)?c.extras:[]).map(function(e){e.sec=SECBY[e.sec]?e.sec:'med';return e});
+  return {v:2,extras:ex,removed:rem,edits:ed};
+}
+function loadMode(){try{if(localStorage.getItem('drofar-mode')==='sheet')state.mode='sheet'}catch(e){}}
+function saveMode(){try{localStorage.setItem('drofar-mode',state.mode)}catch(e){}}
+
+/* ---------- sprites (miniaturas) ---------- */
+function spriteCss(){
+  var css='.sp{width:100%;height:100%;background-repeat:no-repeat}';
+  SEC.forEach(function(s){
+    var k=1;
+    for(var done=0;done<s.total;done+=PER,k++){
+      css+='.sp-'+s.spr+k+'{background-image:url("'+url('img/s_'+s.spr+k+'.webp')+'")}';
+    }
+  });
+  var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+}
+function spriteStyle(s,n){
+  var i=n-1,k=Math.floor(i/PER)+1,j=i%PER,col=j%COLS,row=Math.floor(j/COLS);
+  var inSpr=Math.min(PER,s.total-(k-1)*PER),R=Math.ceil(inSpr/COLS);
+  var x=col/(COLS-1)*100,y=R>1?row/(R-1)*100:0;
+  return {cls:'sp sp-'+s.spr+k,css:'background-size:'+(COLS*100)+'% '+(R*100)+'%;background-position:'+x.toFixed(4)+'% '+y.toFixed(4)+'%'};
+}
+
+/* ---------- filtros y lista ---------- */
+function words(){return norm(state.q).split(/\s+/).filter(Boolean)}
+function matchP(p,ws){return ws.every(function(w){return /^\d+$/.test(w)?(p.n!==null&&String(p.n)===w):p.norm.indexOf(w)>-1})}
+function filter(){
+  var s=cur(),st=state.per[s.id],ws=words(),c=catById(s,st.cat);
+  return ITEMS[s.id].filter(function(p){
+    if(p.removed&&!(admin&&state.showRem))return false;
+    if(st.cat!=='all'&&p.cat!==st.cat)return false;
+    if(c&&c.az&&st.letter&&p.letter!==st.letter)return false;
+    return matchP(p,ws);
+  });
+}
+function letterList(s){
+  var set={};(s.letters||[]).forEach(function(l){set[l[0]]=1});
+  ITEMS[s.id].forEach(function(p){if(p.extra&&p.az&&p.letter!=='#')set[p.letter]=1});
+  return Object.keys(set).sort();
+}
+function visibleCount(s){return ITEMS[s.id].filter(function(p){return !p.removed}).length}
+function hl(text){
+  var ws=words().filter(function(w){return !/^\d+$/.test(w)});
+  var out=esc(text);if(!ws.length)return out;
+  var n=norm(text),ranges=[];
+  ws.forEach(function(w){var i=n.indexOf(w);while(i>-1){ranges.push([i,i+w.length]);i=n.indexOf(w,i+w.length)}});
+  if(!ranges.length)return out;
+  ranges.sort(function(x,y){return x[0]-y[0]});
+  var res='',pos=0;
+  ranges.forEach(function(r){if(r[0]<pos)return;res+=esc(text.slice(pos,r[0]))+'<mark>'+esc(text.slice(r[0],r[1]))+'</mark>';pos=r[1]});
+  return res+esc(text.slice(pos));
+}
+
+function buildTabs(){
+  $('secs').innerHTML=SEC.map(function(s){
+    return '<button class="sec" role="tab" data-sec="'+s.id+'" aria-selected="'+(s.id===state.sec)+'" style="--c:'+s.color+'"><b>'+esc(s.name)+'</b><small>'+visibleCount(s)+' páginas</small></button>';
+  }).join('');
+}
+function buildChips(){
+  var s=cur(),st=state.per[s.id],c=catById(s,st.cat);
+  $('cats').innerHTML='<button class="chip" data-cat="all" aria-pressed="'+(st.cat==='all')+'">Todo</button>'+
+    s.cats.map(function(x){return '<button class="chip" data-cat="'+x.id+'" aria-pressed="'+(x.id===st.cat)+'">'+esc(x.name)+'</button>'}).join('');
+  $('letters').innerHTML=(c&&c.az)?letterList(s).map(function(l){return '<button class="chip" data-letter="'+l+'" aria-pressed="'+(l===st.letter)+'">'+l+'</button>'}).join(''):'';
+  $('letters').hidden=!(c&&c.az);
+}
+function render(){
+  var s=cur();
+  state.list=filter();
+  var sheets=state.mode==='sheet';
+  $('app').classList.toggle('sheets',sheets);
+  $('app').style.setProperty('--c',s.color);
+  $('vGrid').setAttribute('aria-pressed',String(!sheets));
+  $('vSheet').setAttribute('aria-pressed',String(sheets));
+  $('clr').hidden=!state.q;
+  $('q').placeholder='Buscar en '+s.name.toLowerCase();
+  $('secTitle').textContent=s.name;
+  document.title=s.name+' · Portafolios Drofar';
+  $('adminbar').hidden=!admin;
+  $('remTgl').textContent='Quitadas ('+CAT.removed.length+')';
+  $('remTgl').setAttribute('aria-pressed',String(state.showRem));
+  $('remTgl').hidden=!admin||!CAT.removed.length;
+  $('cap').textContent='Espacio para ~'+Math.max(0,FILE_LIMIT-BASE_FILES-CAT.extras.length)+' productos nuevos';
+  var n=state.list.length;
+  $('count').textContent=n?(n+(n===1?' página':' páginas')+(state.q?' con «'+state.q.trim()+'»':'')):'';
+  /* resultados en las otras secciones (sin mezclarlos) */
+  var ws=words(),also='';
+  if(ws.some(function(w){return !/^\d+$/.test(w)})){
+    SEC.forEach(function(o){
+      if(o.id===s.id)return;
+      var k=ITEMS[o.id].filter(function(p){return !p.removed&&matchP(p,ws)}).length;
+      if(k)also+='<button class="alsoB" data-sec="'+o.id+'" style="--c:'+o.color+'">'+esc(o.name)+' ('+k+')</button>';
+    });
+  }
+  $('also').innerHTML=also?'<span>También hay resultados en:</span>'+also:'';
+  $('also').hidden=!also;
+  if(!n){$('grid').innerHTML='<div class="empty">No encontré «'+esc(state.q.trim())+'» en '+esc(s.name.toLowerCase())+'.<br>Prueba con el nombre del medicamento o producto, o con otra categoría.</div>';return}
+  $('grid').innerHTML=state.list.map(function(p,i){
+    var name=p.parts[0]||'',sub=p.parts.slice(1,sheets?8:4).join(', ');
+    var tag=p.extra?'Nuevo':'Pág. '+p.n;
+    var alt=esc(tag+': '+p.parts.slice(0,3).join(', '));
+    var ph;
+    if(!p.extra&&!sheets){var sp=spriteStyle(s,p.n);ph='<div class="'+sp.cls+'" style="'+sp.css+'" role="img" aria-label="'+alt+'"></div>'}
+    else ph='<img src="'+esc(url(p.img))+'" loading="lazy" decoding="async" alt="'+alt+'">';
+    return '<button class="card'+(p.extra?' xtra':'')+(p.removed?' gone':'')+'" data-i="'+i+'"><div class="ph">'+ph+'</div>'+
+      '<div class="cap"><span class="pg">'+tag+(p.removed?' · quitada':'')+'</span><span class="nm">'+hl(name)+'</span><span class="sub">'+hl(sub)+'</span></div></button>';
+  }).join('');
+}
+function refresh(){build();buildTabs();buildChips();render()}
+function setSec(id,top){
+  if(!SECBY[id])return;
+  state.sec=id;
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+  buildTabs();buildChips();render();
+  if(top)window.scrollTo(0,0);
+}
+
+/* ---------- visor ---------- */
+var curI=-1,touchX=null,confirming=false;
+function pageTitle(p){var s=SECBY[p.sec];return p.extra?s.name+' · Producto agregado':s.name+' · Página '+p.n+' de '+s.total}
+function openLb(i){
+  curI=i;var p=state.list[i];if(!p)return;
+  confirming=false;
+  $('lb').hidden=false;document.body.style.overflow='hidden';
+  $('stage').classList.remove('zoom');$('lbZ').textContent='+';
+  $('lbI').src=url(p.img);$('lbI').alt=pageTitle(p);
+  $('stage').scrollTo(0,0);
+  $('lbT').textContent=pageTitle(p);
+  $('lbC').textContent=p.parts.slice(0,4).join(' · ');
+  $('lbP').disabled=i===0;$('lbN').disabled=i===state.list.length-1;
+  [i-1,i+1].forEach(function(j){var q=state.list[j];if(q){(new Image()).src=url(q.img)}});
+  lbAdmin();
+  $('lbX').focus();
+}
+function lbAdmin(){
+  var p=state.list[curI];
+  $('lbE').hidden=!admin||!p;$('lbR').hidden=!admin||!p;
+  if(!admin||!p)return;
+  if(confirming){$('lbE').textContent='Cancelar';$('lbR').textContent='Sí, quitar';$('lbR').classList.add('danger')}
+  else{$('lbE').textContent='Editar';$('lbR').textContent=p.removed?'Restaurar':'Quitar';$('lbR').classList.remove('danger')}
+}
+function closeLb(){var el=document.querySelector('.card[data-i="'+curI+'"]');$('lb').hidden=true;document.body.style.overflow='';if(el)el.focus({preventScroll:true})}
+function go(d){var j=curI+d;if(j>=0&&j<state.list.length)openLb(j)}
+
+$('grid').addEventListener('click',function(e){var c=e.target.closest('.card');if(c)openLb(+c.dataset.i)});
+$('lbX').onclick=closeLb;$('lbP').onclick=function(){go(-1)};$('lbN').onclick=function(){go(1)};
+function toggleZoom(){var z=$('stage').classList.toggle('zoom');$('lbZ').textContent=z?'−':'+'}
+$('lbZ').onclick=toggleZoom;$('lbI').onclick=toggleZoom;
+document.addEventListener('keydown',function(e){
+  if(!$('dlg').hidden){if(e.key==='Escape')closeDlg();return}
+  if($('lb').hidden)return;
+  if(e.key==='Escape')closeLb();else if(e.key==='ArrowLeft')go(-1);else if(e.key==='ArrowRight')go(1);
+});
+$('stage').addEventListener('touchstart',function(e){touchX=$('stage').classList.contains('zoom')?null:e.touches[0].clientX},{passive:true});
+$('stage').addEventListener('touchend',function(e){if(touchX===null)return;var dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>60)go(dx<0?1:-1);touchX=null});
+
+/* ---------- UI de secciones, filtros y búsqueda ---------- */
+$('secs').addEventListener('click',function(e){var b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec,true)});
+$('also').addEventListener('click',function(e){var b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec,true)});
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(SECBY[h]&&h!==state.sec)setSec(h,true)});
+$('cats').addEventListener('click',function(e){var b=e.target.closest('[data-cat]');if(!b)return;var st=state.per[state.sec];st.cat=b.dataset.cat;st.letter=null;buildChips();render();window.scrollTo(0,0)});
+$('letters').addEventListener('click',function(e){var b=e.target.closest('[data-letter]');if(!b)return;var st=state.per[state.sec];st.letter=st.letter===b.dataset.letter?null:b.dataset.letter;buildChips();render();window.scrollTo(0,0)});
+var qt;
+$('q').addEventListener('input',function(){clearTimeout(qt);qt=setTimeout(function(){state.q=$('q').value;render()},120)});
+$('clr').onclick=function(){$('q').value='';state.q='';render();$('q').focus()};
+$('vGrid').onclick=function(){state.mode='grid';saveMode();render()};
+$('vSheet').onclick=function(){state.mode='sheet';saveMode();render()};
+$('remTgl').onclick=function(){state.showRem=!state.showRem;render()};
+
+/* ---------- modo editor ---------- */
+var toastT;
+function toast(msg,bad){var t=$('toast');t.textContent=msg;t.className='toast'+(bad?' bad':'');t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},bad?7000:3500)}
+function clone(){return JSON.parse(JSON.stringify(CAT))}
+function newId(){return Math.random().toString(36).slice(2,7)+Date.now().toString(36).slice(-4)}
+function errMsg(e){
+  var c=e&&e.code;
+  if(c==='not_writer'||c==='not_granted'||c==='consent_required'){admin=false;refresh();return 'Esta vista no tiene permiso para editar. Los cambios solo los puede guardar quien tenga acceso de edición.'}
+  if(c==='not_declared'||c==='capability_disabled'||c==='capability_removed')return 'Guardar desde la página no está disponible en esta vista (por ejemplo, si el enlace es público). Abre la página desde tu cuenta o pídele el cambio a Claude.';
+  if(c==='conflict')return 'Alguien guardó cambios al mismo tiempo. La página se recargará con la versión más reciente; repite tu cambio.';
+  if(c==='too_large')return 'La imagen es demasiado pesada. Prueba con una más liviana.';
+  if(c==='rate_limited')return 'Estás guardando muy seguido. Espera unos segundos e intenta de nuevo.';
+  return 'No se pudo guardar. Intenta de nuevo en un momento.';
+}
+var busy=false;
+function setBusy(b){busy=b;$('dlgSave').disabled=b;$('dlgSave').textContent=b?'Guardando…':'Guardar';$('lbR').disabled=b;$('lbE').disabled=b}
+function commit(next,fileOps){
+  if(!ART)return Promise.reject({code:'not_granted'});
+  var files={'data/catalog.json':JSON.stringify(next)};
+  Object.keys(fileOps||{}).forEach(function(k){files[k]=fileOps[k]});
+  setBusy(true);
+  return ART.publish(files).then(function(){CAT=next;setBusy(false);refresh();return true},function(e){setBusy(false);throw e});
+}
+function loadBitmap(file){
+  if(window.createImageBitmap){return createImageBitmap(file,{imageOrientation:'from-image'}).catch(function(){return viaImg(file)})}
+  return viaImg(file);
+}
+function viaImg(file){
+  return new Promise(function(res,rej){var u=URL.createObjectURL(file),i=new Image();i.onload=function(){URL.revokeObjectURL(u);res(i)};i.onerror=function(){rej(new Error('img'))};i.src=u});
+}
+function drawBlob(src,maxW,maxH,q){
+  var w=src.width,h=src.height,sc=Math.min(1,maxW/w,maxH/h);
+  var c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*sc));c.height=Math.max(1,Math.round(h*sc));
+  var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(src,0,0,c.width,c.height);
+  return new Promise(function(res){
+    c.toBlob(function(b){
+      if(b&&b.type==='image/webp'){res({blob:b,ext:'webp'});return}
+      c.toBlob(function(j){res({blob:j,ext:'jpg'})},'image/jpeg',q);
+    },'image/webp',q);
+  });
+}
+function prepare(file){return loadBitmap(file).then(function(src){return drawBlob(src,780,1010,0.8)})}
+
+function fillCats(secId,sel){
+  var s=SECBY[secId];
+  $('fCat').innerHTML=s.cats.map(function(c){return '<option value="'+c.id+'">'+esc(c.name)+(c.az?' (se ordena por letra)':'')+'</option>'}).join('');
+  if(sel&&catById(s,sel))$('fCat').value=sel;
+}
+var dmode='add',dtarget=null;
+function openDlg(mode,p){
+  dmode=mode;dtarget=p||null;
+  var isExtra=mode==='edit'&&p.extra,isOrig=mode==='edit'&&!p.extra;
+  $('dlgTitle').textContent=mode==='add'?'Agregar producto':'Editar página';
+  $('fMsg').textContent='';
+  $('fName').value='';$('fKw').value='';$('fImg').value='';$('fPrev').hidden=true;
+  var secId=isExtra||isOrig?p.sec:state.sec;
+  $('fSec').value=secId;
+  var st=state.per[secId];
+  fillCats(secId,isExtra?p.cat:(st&&st.cat!=='all'?st.cat:null));
+  $('rowCat').hidden=isOrig;$('rowSec').hidden=isOrig;$('rowImg').hidden=isOrig;
+  $('fImgLbl').textContent=mode==='add'?'Imagen del producto':'Cambiar imagen (opcional)';
+  if(mode==='edit'){
+    $('fName').value=isExtra?p.name:(p.parts[0]||'');
+    $('fKw').value=isExtra?p.rawKw:p.parts.slice(1).join(', ');
+  }
+  $('dlg').hidden=false;$('fName').focus();
+}
+function closeDlg(){if(busy)return;$('dlg').hidden=true}
+$('addBtn').onclick=function(){
+  if(FILE_LIMIT-BASE_FILES-CAT.extras.length<=0){toast('Ya no hay espacio para más productos en esta página. Pídele a Claude que amplíe el límite.',true);return}
+  openDlg('add');
+};
+$('fSec').onchange=function(){fillCats($('fSec').value)};
+$('dlgCancel').onclick=closeDlg;
+$('dlg').addEventListener('click',function(e){if(e.target===$('dlg'))closeDlg()});
+$('fImg').addEventListener('change',function(){
+  var f=$('fImg').files[0];if(!f){$('fPrev').hidden=true;return}
+  $('fPrev').src=URL.createObjectURL(f);$('fPrev').hidden=false;
+});
+$('dlgForm').addEventListener('submit',function(ev){
+  ev.preventDefault();if(busy)return;
+  var name=$('fName').value.trim(),kw=$('fKw').value.trim().replace(/\s*\n\s*/g,', ');
+  var file=$('fImg').files[0];
+  if(!name){$('fMsg').textContent='Escribe el nombre del producto.';return}
+  if(dmode==='add'&&!file){$('fMsg').textContent='Elige la imagen del producto.';return}
+  var next=clone(),ops={},locals={},p0=dtarget,job;
+  if(dmode==='edit'&&!p0.extra){
+    var full=name+(kw?', '+kw:'');
+    var s0=SECBY[p0.sec],orig=s0.raw.filter(function(o){return o.n===p0.n})[0];
+    if(full===orig.kw)delete next.edits[p0.key];else next.edits[p0.key]={kw:full};
+    job=Promise.resolve();
+  }else{
+    var secId=$('fSec').value,cat=$('fCat').value;
+    job=(file?prepare(file):Promise.resolve(null)).then(function(im){
+      var e;
+      if(dmode==='add'){e={id:newId(),sec:secId,name:name,kw:kw,cat:cat,t:Date.now()};next.extras.push(e)}
+      else{e=next.extras.filter(function(x){return x.id===p0.id})[0];if(!e)throw {code:'upstream_error'};e.sec=secId;e.name=name;e.kw=kw;e.cat=cat}
+      if(im){
+        if(e.img)ops[e.img]=null;
+        e.img='img/x_'+e.id+'_'+Date.now().toString(36)+'.'+im.ext;
+        ops[e.img]=im.blob;locals[e.img]=URL.createObjectURL(im.blob);
+      }
+    });
+  }
+  setBusy(true);
+  job.then(function(){
+    Object.keys(locals).forEach(function(k){LOCAL[k]=locals[k]});
+    return commit(next,ops);
+  }).then(function(){
+    var shown=dmode==='add'||(dtarget&&dtarget.extra)?$('fSec').value:null;
+    $('dlg').hidden=true;
+    toast(dmode==='add'?'Producto agregado en «'+SECBY[$('fSec').value].name+'».':'Cambios guardados.');
+    if(!$('lb').hidden){closeLb()}
+    if(dmode==='add'&&shown&&shown!==state.sec)setSec(shown,true);
+  }).catch(function(e){setBusy(false);$('fMsg').textContent=errMsg(e)});
+});
+$('lbE').onclick=function(){
+  var p=state.list[curI];if(!p)return;
+  if(confirming){confirming=false;lbAdmin();return}
+  openDlg('edit',p);
+};
+$('lbR').onclick=function(){
+  var p=state.list[curI];if(!p||busy)return;
+  if(p.removed){
+    var n=clone();n.removed=n.removed.filter(function(x){return x!==p.key});
+    commit(n,{}).then(function(){toast('Página restaurada.');closeLb()}).catch(function(e){toast(errMsg(e),true)});
+    return;
+  }
+  if(!confirming){confirming=true;lbAdmin();return}
+  var next=clone(),ops={};
+  if(p.extra){
+    var e=next.extras.filter(function(x){return x.id===p.id})[0];
+    next.extras=next.extras.filter(function(x){return x.id!==p.id});
+    if(e&&e.img)ops[e.img]=null;
+  }else{if(next.removed.indexOf(p.key)<0)next.removed.push(p.key)}
+  commit(next,ops).then(function(){toast(p.extra?'Producto eliminado.':'Página quitada. Puedes restaurarla en «Quitadas».');closeLb()}).catch(function(e){confirming=false;lbAdmin();toast(errMsg(e),true)});
+};
+
+/* ---------- arranque ---------- */
+var NOTE='';
+function modeNote(t){NOTE=t||''}
+$('edTip').onclick=function(){var n=$('modeNote');n.textContent=admin?'Ya estás en modo editor: arriba aparecen Agregar producto, y al abrir una página, Editar y Quitar.':(NOTE||'Comprobando permisos…');n.hidden=false;window.scrollTo(0,0)};
+(function(){var h=location.hash.slice(1);if(SECBY[h])state.sec=h})();
+$('fSec').innerHTML=SEC.map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+'</option>'}).join('');
+loadMode();
+spriteCss();
+loadCatalog().then(function(c){CAT=sane(c);refresh()});
+(function(){
+  if(!window.claude||!claude.use){modeNote('Vista de solo lectura: estás en un archivo descargado o fuera del visor de Claude, aquí no hay modo editor. Abre el enlace de la página con tu cuenta.');return}
+  Promise.all([claude.use('user'),claude.use('artifact')]).then(function(r){
+    var u=r[0],a=r[1];
+    if(!u||!a){modeNote('Vista de solo lectura: el visor no activó el modo editor en esta vista (sesión sin iniciar o enlace público).');return}
+    return u.canEdit().then(function(ok){
+      if(ok){ART=a;admin=true;modeNote('');render();if(!$('lb').hidden)lbAdmin()}
+      else modeNote('Vista de solo lectura: esta cuenta no tiene permiso de edición en la página.');
+    });
+  }).catch(function(){modeNote('Vista de solo lectura: no se pudo comprobar el permiso de edición.')});
+})();
+window.addEventListener('scroll',function(){document.querySelector('header.top').classList.toggle('stuck',window.scrollY>6)},{passive:true});
+</script>
+
+</body></html>
