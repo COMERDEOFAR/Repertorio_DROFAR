@@ -116,6 +116,31 @@ footer{background:rgba(255,255,255,.85);padding:14px 16px;border-radius:10px;mar
 @media (max-width:520px){header.top.stuck .brand{display:none}.secTitle{font-size:19px}.sec{padding:6px 14px}.sec b{font-size:15px}.row{padding-block:8px 2px}.meta{padding-block:12px 10px}.logo{height:46px}.brand .sub{font-size:16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 @media (prefers-reduced-motion:reduce){.card{transition:none}}
 .lnk{display:none!important}
+/* Drofi contacto */
+footer{padding-bottom:150px}
+.drofi{position:fixed;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-family:var(--body)}
+.drofi .fab{border:0;background:none;padding:0;cursor:pointer;position:relative;width:78px;line-height:0;filter:drop-shadow(0 4px 8px rgba(20,67,124,.35));animation:dfloat 3.2s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+.drofi .fab img{width:100%;height:auto;display:block}
+.drofi .fab:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:14px}
+.drofi .tag{position:absolute;right:62px;bottom:6px;background:var(--blue);color:#fff;font:700 12px var(--display);padding:6px 10px;border-radius:999px;white-space:nowrap;line-height:1.2;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.drofi.open .tag,.drofi.bub .tag{display:none}
+.drofi .bubble{position:relative;background:#fff;color:var(--blue);border:2px solid var(--green);border-radius:16px;padding:9px 30px 9px 13px;font-weight:800;font-size:14px;line-height:1.25;max-width:210px;box-shadow:0 6px 18px rgba(20,67,124,.22);animation:dpop .5s cubic-bezier(.2,1.4,.4,1)}
+.drofi .bubble:after{content:"";position:absolute;right:30px;bottom:-9px;width:14px;height:14px;background:#fff;border-right:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(45deg)}
+.drofi .bubble button{position:absolute;top:2px;right:4px;border:0;background:none;font-size:18px;color:#6b7a8c;cursor:pointer;line-height:1;padding:4px}
+.drofi .panel{background:#fff;border-radius:16px;border:2px solid var(--blue);box-shadow:0 10px 28px rgba(20,67,124,.3);padding:14px;width:min(290px,calc(100vw - 24px));animation:dpop .25s ease-out}
+.drofi .panel h3{margin:0 0 2px;font:800 17px var(--display);color:var(--blue)}
+.drofi .panel p{margin:0 0 10px;font-size:13px;color:#46566a}
+.drofi .panel a{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--blue);font-weight:700;font-size:14px;padding:9px 10px;border-radius:12px;background:#f1f6fb;margin-top:6px;word-break:break-word}
+.drofi .panel a:hover,.drofi .panel a:focus-visible{background:#e2edf8}
+.drofi .panel a.wa{background:#e8f4d8;color:#2f5a10}
+.drofi .panel a i{font-style:normal;font-size:18px;flex:none}
+.drofi .panel .x{float:right;border:0;background:none;font-size:22px;line-height:1;color:#6b7a8c;cursor:pointer}
+.drofi [hidden]{display:none!important}
+@keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes dpop{from{opacity:0;transform:translateY(10px) scale(.9)}to{opacity:1;transform:none}}
+@media (max-width:520px){.drofi .fab{width:64px}.drofi .tag{right:50px}}
+@media (prefers-reduced-motion:reduce){.drofi .fab,.drofi .bubble,.drofi .panel{animation:none}}
+@media print{.drofi{display:none}}
 </style>
 
 <div class="bgfx" aria-hidden="true"><div class="frame"></div><img class="wm" src="logo_wm.webp" alt=""><svg class="c tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 424" preserveAspectRatio="xMaxYMin meet"><polygon fill="#E6E6E6" points="181,163 133,195 132,203 248,370 251,370 251,254 190,166"/><polygon fill="#EBA043" points="43,0 160,171 167,172 180,163 181,154 121,68 123,62 149,44 149,36 125,0"/><polygon fill="#6E9B2C" points="160,0 174,23 182,22 209,3 209,0"/><polygon fill="#14437C" points="211,0 201,10 124,63 124,70 248,249 251,249 251,0"/></svg><svg class="c bl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 420" preserveAspectRatio="xMaxYMin meet"><polygon fill="#E6E6E6" points="0,43 0,162 4,164 64,251 71,252 120,219 120,212 3,43"/><polygon fill="#EBA043" points="72,252 70,260 130,346 127,354 102,371 102,377 130,419 208,419 208,410 93,245 85,243"/><polygon fill="#6E9B2C" points="0,165 0,419 35,419 38,414 88,379 99,376 100,371 128,352 128,344 7,170"/><polygon fill="#14437C" points="91,410 78,392 72,392 45,410 44,419 91,419"/></svg></div>
@@ -918,6 +943,38 @@ loadCatalog().then(function(c){CAT=sane(c);refresh()});
   }).catch(function(){modeNote('Vista de solo lectura: no se pudo comprobar el permiso de edición.')});
 })();
 window.addEventListener('scroll',function(){document.querySelector('header.top').classList.toggle('stuck',window.scrollY>6)},{passive:true});
+</script>
+
+<div class="drofi" id="drofi">
+  <div class="bubble" id="dBub" role="status" hidden>Realiza tu pedido por este medio<button type="button" id="dBubX" aria-label="Cerrar mensaje">×</button></div>
+  <div class="panel" id="dPanel" role="dialog" aria-label="Contáctanos" hidden>
+    <button type="button" class="x" id="dX" aria-label="Cerrar">×</button>
+    <h3>Contáctanos por este medio</h3>
+    <p>Realiza tu pedido con nosotros.</p>
+    <a class="wa" href="https://wa.me/573206865587" target="_blank" rel="noopener"><i>💬</i>WhatsApp 320 686 5587</a>
+    <a class="wa" href="https://wa.me/573116762000" target="_blank" rel="noopener"><i>💬</i>WhatsApp 311 676 2000</a>
+    <a href="tel:+578205030"><i>☎️</i>Fijo 820 5030</a>
+    <a href="mailto:Drofar41@hotmail.com"><i>✉️</i>Drofar41@hotmail.com</a>
+  </div>
+  <button type="button" class="fab" id="dFab" aria-label="Contáctanos por este medio" aria-expanded="false">
+    <span class="tag">Contáctanos</span>
+    <img src="drofi.webp" alt="Drofi con una carta" width="78" height="118">
+  </button>
+</div>
+<script>
+(function(){
+  var r=document.getElementById('drofi'),b=document.getElementById('dBub'),p=document.getElementById('dPanel'),f=document.getElementById('dFab');
+  function bub(v){b.hidden=!v;r.classList.toggle('bub',v)}
+  function pan(v){p.hidden=!v;r.classList.toggle('open',v);f.setAttribute('aria-expanded',v?'true':'false');if(v)bub(false)}
+  f.onclick=function(){pan(p.hidden)};
+  document.getElementById('dX').onclick=function(){pan(false)};
+  document.getElementById('dBubX').onclick=function(){bub(false)};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')pan(false)});
+  var seen=false;try{seen=sessionStorage.getItem('drofiMsg')}catch(e){}
+  if(!seen){
+    setTimeout(function(){if(p.hidden){bub(true);try{sessionStorage.setItem('drofiMsg','1')}catch(e){}setTimeout(function(){bub(false)},9000)}},1200);
+  }
+})();
 </script>
 
 </body></html>
